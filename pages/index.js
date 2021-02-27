@@ -2,8 +2,28 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import tachyons from 'tachyons'
-
+import {useState} from 'react'
 export default function Home() {
+/////////LOGIN CONTROL/////////////////
+    const [email_address, updateEmail] = useState("");
+    const [password, updatePassword] = useState("");
+
+
+    async function onLoginClick() {
+      console.log("login Clicked");
+        const data = {
+            email:email_address,
+            password:password
+            }
+        const response = await fetch('https://paddybaba.ddns.net/login',{
+                            method:'POST',
+                            headers:{"Content-type":"application/json"},
+                            body:JSON.stringify(data)
+                            })
+        const datafetched = await response.json();
+        console.log(datafetched)
+      }
+///////////////////////////////////////
   return (
     <div className={styles.container}>
       <Head>
@@ -26,20 +46,23 @@ export default function Home() {
                 name="email_address" 
                 className="mt1 ba b--silver br2"
                 pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" 
-                required></input>
+                onChange={e=>{updateEmail(e.target.value)}}></input>
           </div>
           <div>
             <label htmlFor="password">Password </label><br></br>
-            <input id="password" type="password" name="password" className="mt1 ba b--silver br2"></input>
+            <input id="password" type="password" name="password" className="mt1 ba b--silver br2"
+                  onChange={e=>{updatePassword(e.target.value)}}></input>
           </div>
           <div>
-            <input type="button" id="submit_login" value="Submit" className="mt1 ba b--silver br2"></input>
+            <input onClick={onLoginClick} type="button" id="submit_login" value="Submit" className="color-inherit bg-black-90 dim pointer mt1 mb2 ba b--silver br2"></input>
           </div>
           <div>
-            <Link href="/webpages/register">
-             <a>New User, register here !!</a>
+            <Link href="/register">
+             <a >New User, register here !!</a>
+            </Link><br></br>
+            <Link href="/webpages/gudia">
+             <a>Go to gudia !!</a>
             </Link>
-              
             
           </div>
         </form>
@@ -80,7 +103,7 @@ export default function Home() {
         </div> */}
       </main>
 
-      <footer className={styles.footer}>
+      {/* <footer className={styles.footer}>
         <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
           target="_blank"
@@ -89,7 +112,7 @@ export default function Home() {
           Powered by{' '}
           <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
         </a>
-      </footer>
+      </footer> */}
     </div>
   )
 }
