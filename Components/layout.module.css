@@ -1,0 +1,11 @@
+.postcontainer {
+    min-height: 100vh;
+    padding: 0 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family:'Source Code Pro', monospace;
+    color:rgb(0, 225, 255);
+    background-color: black;
+  }

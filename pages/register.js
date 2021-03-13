@@ -3,12 +3,13 @@ import Link from 'next/link'
 import tachyons from 'tachyons'
 import {useEffect, useState} from 'react'
 import styles from '../styles/Home.module.css'
+import {useRouter} from 'next/router'
 
 var phoneField ;
 var emailField ;
 var passwordField;
 var alertTextArea;
-
+var userData ;
 
 
 //////VALIDATOR////////////////////////////////
@@ -56,6 +57,7 @@ const isValidPhoneNumber =(num)=>
     return true;
   }
 
+  /////////END VALIDATOR /////////////////
 
 export default function Register(){
 
@@ -71,6 +73,7 @@ useEffect(()=>{
     const [email_address, updateEmail] = useState("");
     const [password, updatePassword] = useState("");
     const [mobile, updateMobile] = useState("")
+    const router = useRouter();
 
     async function onRegisterClick() {
         const data = {
@@ -89,8 +92,15 @@ useEffect(()=>{
                             body:JSON.stringify(data)
                             })
         const datafetched = await response.json();
-        console.log(datafetched)
-                        }                  
+        if(datafetched.message == "OK"){
+          userData = datafetched.user;
+          alert(datafetched.user.username+ " registered successfully !!!")
+          router.push({
+            pathname:'\dashboard',
+            query: userData
+          })
+        } else (alert("Error occured !! Try again"))
+      }                  
       }
     }
     
