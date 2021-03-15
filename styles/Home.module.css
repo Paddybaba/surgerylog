@@ -157,3 +157,10 @@
     flex-direction: column;
   }
 }
+
+.scrollX{
+  margin-top: 0.5rem;
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+}

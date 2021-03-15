@@ -37,3 +37,27 @@
     
  }
 /* mt2 ba b--silver br2 */
+.pCard{
+    display: flex;
+    flex-direction: column;
+    border: 2px solid chartreuse;
+    border-radius: 3px;
+    align-items: center;
+    width: 30vw;
+    background-color: chartreuse;
+    max-width: 150px;
+    margin: 4px;
+
+}
+.fTitle{
+    font-size:0.5rem;
+    color: black;
+    margin-bottom: 2px;
+    font-weight: bold;
+}
+.fDate{
+    font-size: 0.4rem;
+    font-weight: bold;
+    margin-bottom: 2px;
+    color: black;
+}

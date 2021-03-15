@@ -6,6 +6,7 @@ import Head from 'next/head'
 import {useRouter} from 'next/router'
 import NewPatient from '../Components/NewPatient'
 import SearchField from '../Components/SearchField'
+import PatientCard from '../Components/PatientCard'
 
 
 const Dashboard = () =>{
@@ -31,6 +32,26 @@ const Dashboard = () =>{
                 <NewPatient></NewPatient>
                 <SearchField></SearchField>
             </div>
+                <div className="mt-3">
+                <h3>Recent Updates ...</h3>
+                <div className={styles.scrollX}>
+                    <PatientCard></PatientCard>
+                    <PatientCard></PatientCard>
+                    <PatientCard></PatientCard>
+                    <PatientCard></PatientCard>
+                    <PatientCard></PatientCard>
+                    <PatientCard></PatientCard>
+                    <PatientCard></PatientCard>
+                    <PatientCard></PatientCard>
+                    <PatientCard></PatientCard>
+                    <PatientCard></PatientCard>
+                    <PatientCard></PatientCard>
+                    <PatientCard></PatientCard>
+                    <PatientCard></PatientCard>
+                </div>
+
+            </div>
+            
             
         </div>
         </div>
