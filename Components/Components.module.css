@@ -1,0 +1,39 @@
+.card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width:6rem;
+    height: 6rem;
+    /* border: turquoise 1px dotted;
+    border-radius: 3px; */
+    background-color: transparent
+}
+.card:hover{
+    transform: scale(1.05);
+    transition: 400ms;
+    cursor: pointer;
+}
+
+.search{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width:40%;
+    min-width: 8rem;
+    height: 6rem;
+    /* border: turquoise 1px dotted;
+    border-radius: 3px; */
+    background-color: transparent;
+}
+/* flex flex-column items-center w-20 fl grow tc ba bw1 b--light-blue br3  */
+.entry{
+    margin-top: 0.2rem;
+    border: thin silver;
+    border-radius: 2px;
+    width: 70%;
+    margin-left: 0.8rem;
+    
+ }
+/* mt2 ba b--silver br2 */
