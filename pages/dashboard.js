@@ -11,7 +11,7 @@ import PatientCard from '../Components/PatientCard'
 
 const Dashboard = () =>{
     const router = useRouter();
-    var image = "/images/demoXRay.jpg"
+    var image = "/demoXRay.jpg"
     console.log(router.query)
     return(
         <div>
