@@ -11,6 +11,7 @@ import PatientCard from '../Components/PatientCard'
 
 const Dashboard = () =>{
     const router = useRouter();
+    var image = "/images/demoXRay.jpg"
     console.log(router.query)
     return(
         <div>
@@ -35,19 +36,18 @@ const Dashboard = () =>{
                 <div className="mt-3">
                 <h3>Recent Updates ...</h3>
                 <div className={styles.scrollX}>
-                    <PatientCard></PatientCard>
-                    <PatientCard></PatientCard>
-                    <PatientCard></PatientCard>
-                    <PatientCard></PatientCard>
-                    <PatientCard></PatientCard>
-                    <PatientCard></PatientCard>
-                    <PatientCard></PatientCard>
-                    <PatientCard></PatientCard>
-                    <PatientCard></PatientCard>
-                    <PatientCard></PatientCard>
-                    <PatientCard></PatientCard>
-                    <PatientCard></PatientCard>
-                    <PatientCard></PatientCard>
+                    <PatientCard image = {image}></PatientCard>
+                    <PatientCard image = {image}></PatientCard>
+                    <PatientCard image = {image}></PatientCard>
+                    <PatientCard image = {image}></PatientCard>
+                    <PatientCard image = {image}></PatientCard>
+                    <PatientCard image = {image}></PatientCard>
+                    <PatientCard image = {image}></PatientCard>
+                    <PatientCard image = {image}></PatientCard>
+                    <PatientCard image = {image}></PatientCard>
+                    <PatientCard image = {image}></PatientCard>
+                    <PatientCard image = {image}></PatientCard>
+                    
                 </div>
 
             </div>
