@@ -11,8 +11,8 @@ import PatientCard from '../Components/PatientCard'
 
 const Dashboard = () =>{
     const router = useRouter();
-    var image = "/demoXRay.jpg"
-    console.log(router.query)
+    var image = "/images/demoXRay.jpg"
+    // console.log(router.query)
     return(
         <div>
             <Head>
@@ -34,7 +34,8 @@ const Dashboard = () =>{
                 <SearchField></SearchField>
             </div>
                 <div className="mt-3">
-                <h3>Recent Updates ...</h3>
+                <a href="https://paddybaba.ddns.net/picupload">Photo Upload</a>
+                <h4>Recently Updated ...</h4>
                 <div className={styles.scrollX}>
                     <PatientCard image = {image}></PatientCard>
                     <PatientCard image = {image}></PatientCard>

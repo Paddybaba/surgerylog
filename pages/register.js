@@ -5,11 +5,13 @@ import {useEffect, useState} from 'react'
 import styles from '../styles/Home.module.css'
 import {useRouter} from 'next/router'
 
+
 var phoneField ;
 var emailField ;
 var passwordField;
 var alertTextArea;
 var userData ;
+var profileImageField;
 
 
 //////VALIDATOR////////////////////////////////
@@ -67,42 +69,69 @@ useEffect(()=>{
   emailField = document.getElementById("email_address"); 
   passwordField = document.getElementById("password")
   alertTextArea = document.getElementById("alert_message")
+  profileImageField = document.getElementById("pp") 
 },[])
 
     const [name, updateName] = useState("Anup")
     const [email_address, updateEmail] = useState("");
     const [password, updatePassword] = useState("");
-    const [mobile, updateMobile] = useState("")
+    const [mobile, updateMobile] = useState("");
+    const [profile_pic, updatePP] = useState("");
     const router = useRouter();
 
+    const fileUpload = () =>{
+      
+    }
+
     async function onRegisterClick() {
+           
+      const convertFile = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+            })
+
+      // const convertFile = (file) =>{
+      //   let buff = fs.readFileSync(file);
+      //   let base64data = buff.toString('base64');
+
+      //   console.log("Image converted to base64" + base64data)
+      // }
+      
+          let formData = await convertFile(profile_pic);
+          // console.log(formData)
         const data = {
             email:email_address,
             username:name,
             password:password,
-            phoneNumber : mobile
-    }
-    if(required())
-    {
-      if(isValidEmail(data.email) && isValidPhoneNumber(data.phoneNumber))
-      {
-        const response = await fetch('https://paddybaba.ddns.net/register',{
-                            method:'POST',
-                            headers:{"Content-type":"application/json"},
-                            body:JSON.stringify(data)
-                            })
-        const datafetched = await response.json();
-        if(datafetched.message == "OK"){
-          userData = datafetched.user;
-          alert(datafetched.user.username+ " registered successfully !!!")
-          router.push({
-            pathname:'\dashboard',
-            query: userData
-          })
-        } else (alert("Error occured !! Try again"))
-      }                  
-      }
-    }
+            phoneNumber : mobile,
+            file : formData
+          }
+          console.log(data)
+              if(required())
+              {
+                if(isValidEmail(data.email) && isValidPhoneNumber(data.phoneNumber))
+                {
+                  const response = await fetch('https://paddybaba.ddns.net/register',{
+                                      method:'POST',
+                                      headers:{"Content-type":"application/json"},
+                                      body:JSON.stringify(data)
+                                      })
+                  const datafetched = await response.json();
+                  if(datafetched.message == "OK"){
+                    userData = datafetched.user;
+                    alert(datafetched.user.username+ " registered successfully !!!")
+                    router.push({
+                      pathname:'\dashboard',
+                      query: userData
+                    })
+                  } else if(datafetched.message == "FAILED"){
+                    (alert("Error occured !! Try again"))
+                  }
+                }                  
+                }
+        }
     
     return (
         <div className={styles.container}>
@@ -142,6 +171,14 @@ useEffect(()=>{
             <label htmlFor="password">Password* </label><br></br>
             <input id="password" type="password" name="password" className="ma2 ba b--silver br2"
                     onChange={e=>{updatePassword(e.target.value)}}></input>
+          </div>
+          <div>
+            <input  className="ma2 ba b--silver br2 w-90" 
+                    id="pp" 
+                    type="file" 
+                    name="profile_photo" 
+                    accept="image/*"
+                    onChange = {(file) =>updatePP(file.target.files[0])}></input>
           </div>
           <div className="tc">
             <input onClick={onRegisterClick}

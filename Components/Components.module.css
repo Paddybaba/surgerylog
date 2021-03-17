@@ -38,6 +38,7 @@
  }
 /* mt2 ba b--silver br2 */
 .pCard{
+    position: relative;
     display: flex;
     flex-direction: column;
     border: 2px solid chartreuse;
@@ -48,6 +49,11 @@
     max-width: 150px;
     margin: 4px;
 
+}
+.pCard:hover{
+    border: darkgreen 2px solid;
+    transition: all 100ms ease-in;
+    cursor: pointer;
 }
 .fTitle{
     font-size:0.5rem;
@@ -60,4 +66,12 @@
     font-weight: bold;
     margin-bottom: 2px;
     color: black;
+}
+.positionAbs{
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 30%;
+    border: 1px solid black;
+    border-radius: 50%;
 }
