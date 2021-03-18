@@ -10,7 +10,6 @@ var phoneField ;
 var emailField ;
 var passwordField;
 var alertTextArea;
-var userData ;
 var profileImageField;
 
 
@@ -61,7 +60,7 @@ const isValidPhoneNumber =(num)=>
 
   /////////END VALIDATOR /////////////////
 
-export default function Register(){
+export default function Register({gotoDashboard, gotoLogin, getUser}){
 
   ////////////// GETTING ELEMENTS ///////////////////
 useEffect(()=>{
@@ -77,7 +76,6 @@ useEffect(()=>{
     const [password, updatePassword] = useState("");
     const [mobile, updateMobile] = useState("");
     const [profile_pic, updatePP] = useState("");
-    const router = useRouter();
 
     const fileUpload = () =>{
       
@@ -120,12 +118,10 @@ useEffect(()=>{
                                       })
                   const datafetched = await response.json();
                   if(datafetched.message == "OK"){
-                    userData = datafetched.user;
+                    console.log(datafetched.user)
+                    getUser(datafetched.user)
                     alert(datafetched.user.username+ " registered successfully !!!")
-                    router.push({
-                      pathname:'\dashboard',
-                      query: userData
-                    })
+                    gotoDashboard();
                   } else if(datafetched.message == "FAILED"){
                     (alert("Error occured !! Try again"))
                   }
@@ -188,9 +184,7 @@ useEffect(()=>{
             <p className="tc red f7" id="alert_message"></p>
           </div>
           <div>
-          <Link href="/">
-             <a className="f6">Already registered, Login</a>
-            </Link>
+          <h4 onClick={()=>{gotoLogin()}} className="pointer grow f5 pa2">Already Registered... Login</h4>
           </div>
         </form>
         </main>
