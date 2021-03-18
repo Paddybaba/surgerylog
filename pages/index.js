@@ -5,7 +5,7 @@ import tachyons from 'tachyons'
 import {useEffect, useState} from 'react'
 import LoginForm from '../Components/LoginForm'
 import Register from '../Components/register'
-import Dashboard from '../Components/Dashboard'
+import Dashboard from '../Components/dashboard'
 export default function Home() {
    
     const [route, updateRoute] = useState("LOGIN");
