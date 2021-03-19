@@ -8,7 +8,7 @@ import SearchField from './SearchField'
 import PatientCard from './PatientCard'
 
 
-const Dashboard = ({user, gotoLogin}) =>{
+const Dashboard = ({user, gotoLogin, gotoAddNew}) =>{
     var imagePath = user.imagePath;
     var image = `https://paddybaba.ddns.net/images/${imagePath}`
     var image2 = `https://paddybaba.ddns.net/xray/itf.jpeg`
@@ -32,11 +32,11 @@ const Dashboard = ({user, gotoLogin}) =>{
                      </div>                
                 </div>
             <div className="flex justify-between ma3 mt5">
-                <NewPatient></NewPatient>
+                
+                <NewPatient gotoAddNew={gotoAddNew}></NewPatient>
                 <SearchField></SearchField>
             </div>
                 <div className="mt-3">
-                {/* <a href="https://paddybaba.ddns.net/picupload">Photo Upload</a> */}
                 <h4>Recently Updated ...</h4>
                 <div className={styles.scrollX}>
                     <PatientCard image = {image2}></PatientCard>
