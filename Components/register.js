@@ -169,6 +169,7 @@ useEffect(()=>{
                     onChange={e=>{updatePassword(e.target.value)}}></input>
           </div>
           <div>
+            <label htmlFor="pp">Profile Photo</label>
             <input  className="ma2 ba b--silver br2 w-90" 
                     id="pp" 
                     type="file" 

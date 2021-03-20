@@ -19,13 +19,14 @@ const LoginForm = ({gotoDashboard,gotoRegister, getUser}) =>{
                               })
           const datafetched = await response.json();
           if(datafetched.message == "OK"){
-            var userDetails = {
+            const userDetails = {
               username : datafetched.user.username,
               imagePath : datafetched.user.imagePath,
               email_address : datafetched.user.email,
               phoneNumber:datafetched.user.phoneNumber
             }
             getUser(userDetails)
+            console.log(userDetails)
             gotoDashboard();
             // alert("Welcome "+ datafetched.user.username)
             // console.log(datafetched.user)

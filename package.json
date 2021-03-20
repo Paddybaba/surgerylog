@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "bootbox": "^5.5.2",
     "bootstrap": "^5.0.0-beta2",
     "cors": "^2.8.5",
     "express-fileupload": "^1.2.1",
