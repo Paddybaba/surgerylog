@@ -1,29 +1,49 @@
 import Head from 'next/head'
 import styles from '../Components/Components.module.css'
 import { useState } from 'react'
-const initialValues = {
-    patientname : "",
-    age : "",
-    gender : "Male",
-    address: "",
-    city:"",
-    phone:"",
-    hospital:"Gupta Hospital, Dhamtari",
-    diagnosis : "",
-    aoclass : "",
-    admissiondate :"",
-    dischargedate : "",
-    clinicalhistory :"",
-    clinicalfindings:"",
-    surgerydone :"",
-    anaesthesia : "Spinal",
-    intraop : "None of special mention",
-    duration : "",
-    preopxray:""
-}
+import Modal from 'react-modal'
 
-const AddPatientForm = ({gotoDashboard}) => {
+
+
+Modal.setAppElement('main')
+var dataToBeUploaded = ""
+function getToday(){
+    var date = new Date;
+    var yyyy = date.getFullYear();
+    var mm = date.getMonth();
+    var dd = date.getDate();
+
+    return `${yyyy}-${mm}-${dd}`
+}
+////////  MAIN ...........
+const AddPatientForm = ({gotoDashboard, user}) => {
+    const user_email = user.email_address;
+    
+    const initialValues = {
+        user : user_email,
+        patientname : "",
+        age : null,
+        gender : "Male",
+        address: "",
+        city:"",
+        phone:null,
+        hospital:"Gupta Hospital, Dhamtari",
+        diagnosis : "",
+        aoclass : "",
+        admissiondate :getToday(),
+        dischargedate : getToday(),
+        clinicalhistory :"",
+        clinicalfindings:"",
+        surgerydone :"",
+        anaesthesia : "Spinal",
+        intraop : "None of special mention",
+        duration : ""
+    }   
  const [values, setValues]= useState(initialValues)  
+ const [imageFile, setImageFile]=useState("")
+//  const [modalIsOpen, setModalIsOpen]= useState(false)
+
+
  const handleInputChange=(event)=>{
     const {name,value} = event.target;
     setValues({
@@ -31,10 +51,28 @@ const AddPatientForm = ({gotoDashboard}) => {
         [name]:value,
     });
  }
- const onSubmitClick =(event)=>{
+ async function onSubmitClick (event){
     event.preventDefault(); 
-    gotoDashboard(); 
-    console.log(values)
+    let fd = new FormData();
+    fd.append('patientData', JSON.stringify(values))
+    
+    for (const file of imageFile){
+        fd.append("preop", file)
+    }
+
+    // for (const [key, value] of fd){
+    // console.log("Key", `${key}`)
+    // console.log("Value", `${value}`);
+    // }
+
+    const response = await fetch('https://paddybaba.ddns.net//uploadForm', {
+        method:"POST",
+        body : fd
+    })
+    dataToBeUploaded = await response.json();
+    alert(`Patient ${dataToBeUploaded.patientname} saved successfully in the database !!!`)
+    // gotoDashboard(); 
+
 }
 const onResetClick = (event) =>{
     event.preventDefault();
@@ -57,13 +95,13 @@ const onResetClick = (event) =>{
 
                 <form className=" bg-transparent pa3 ba b--silver br3">
                     <div className="">
-                        <label className="tl" htmlFor="patientname">Name </label>
-                        <input id="username" value={values.name} onChange={handleInputChange} type="text" name="patientname" className="ma2 ba b--silver br2"
+                        <label className="tl" htmlFor="patientname">Name* </label>
+                        <input id="username" value={values.name} onChange={handleInputChange} type="text" name="patientname" className="w-90 ma2 ba b--silver br2"
                            ></input>
                     </div>
                     <div className="">
-                        <label className="tl" htmlFor="age">Age </label>
-                        <input id="age" value={values.age} onChange={handleInputChange} type="number" name="age" className="ma2 ba b--silver br2 w-10"
+                        <label className="tl" htmlFor="age">Age* </label>
+                        <input id="age" value={values.age} onChange={handleInputChange} type="number" name="age" className="ma2 ba b--silver br2 w-20"
                             ></input>
 
                         <label className="ph3" htmlFor="age">Gender </label>
@@ -74,7 +112,7 @@ const onResetClick = (event) =>{
                     </div>
                     <div className="">
                         <label className="tl" htmlFor="ADDRESS">Address </label>
-                        <input id="address" value={values.address} onChange={handleInputChange} type="text" name="address" className="ma2 ba b--silver br2"
+                        <input id="address" value={values.address} onChange={handleInputChange} type="text" name="address" className="w-80 ma2 ba b--silver br2"
                            ></input>
                     </div>
                     <div className="">
@@ -82,7 +120,7 @@ const onResetClick = (event) =>{
                         <input id="city" value={values.city} onChange={handleInputChange} type="text" name="city" className="w-20 ma2 ba b--silver br2"
                         ></input>
 
-                        <label className="" htmlFor="phone">Phone</label>
+                        <label className="" htmlFor="phone">Phone*</label>
                         <input id="phone" value={values.phone} onChange={handleInputChange} type="number" name="phone" className="w-30 ma2 ba b--silver br2"
                         ></input>
                     </div>
@@ -132,14 +170,21 @@ const onResetClick = (event) =>{
                     </div>
                     <div>
                     <label className="" htmlFor="intraop">Intraop Findings</label>
-                        <input id="intraop" value={values.intraop} onChange={handleInputChange} type="text" name="intraop" className="w-60 ma2 ba b--silver br2"
+                        <input id="intraop" value={values.intraop} onChange={handleInputChange} type="text" name="intraop" className="w-80 ma2 ba b--silver br2"
                         ></input>
                     </div>
                     <div>
-                    <label className="" htmlFor="preopxray">Preop Images</label>
-                        <input id="preopxray" value={values.preopxray} onChange={handleInputChange} type="file" name="preopxray" className="w-50 ma2 ba b--silver br2"
+                    <label className="" htmlFor="preopxray">Preop Images <span className="f8"> (Max 3 file)</span></label>
+                        <input  id="preopxray"  
+                                accept="image/*" 
+                                onChange={(event)=>{setImageFile(event.target.files)}} 
+                                type="file" 
+                                name="preopxray" 
+                                multiple
+                                className="w-90 ma2 ba b--silver br2"
                         ></input>
                     </div>
+        
                     <div className="flex justify-around">
                         <button className="color-inherit bg-black-90 dim pointer mt1 mb2 ba b--silver br2" type="submit" onClick={(e)=>onSubmitClick(e)}>Submit</button>
                         <button className="color-inherit bg-black-90 dim pointer mt1 mb2 ba b--silver br2" type="reset" onClick={(e)=>{onResetClick(e)}}>Reset</button>
@@ -147,7 +192,32 @@ const onResetClick = (event) =>{
                     </div>
             
                     </div>
-                    </form>             
+                    </form>
+                    
+                    {/* <Modal isOpen={modalIsOpen} className={styles.modal} autoFocus={true} >
+                        <div>
+                            <h3 className="f4">New patient will be added with following details</h3>
+                            <div className="f6">
+                                <p>Name : {dataToBeUploaded.patientname} </p>
+                                <p>Age : {dataToBeUploaded.age}</p>
+                                <p>Gender : {dataToBeUploaded.gender}</p>
+                                <p>Address : {dataToBeUploaded.address}</p>
+                                <p>City : {dataToBeUploaded.city}</p>
+                                <p>Phone : {dataToBeUploaded.phone}</p>
+                                <p>Hospital : {dataToBeUploaded.hospital}</p>
+                                <p>Diagnosis : {dataToBeUploaded.diagnosis}</p>
+                                <p>AO Classification : {dataToBeUploaded.aoclass}</p>
+                                <p>Date of Admission : {dataToBeUploaded.admissiondate}</p>
+                                <p>Date of Discharge : {dataToBeUploaded.dischargedate}</p>
+                                <p>Clinical History : {dataToBeUploaded.clinicalhistory}</p>
+                                <p>Clinical Findings : {dataToBeUploaded.clinicalfindings}</p>
+                                <p>Surgery Done : {dataToBeUploaded.surgerydone}</p>
+                                <p>Intra-Op  : {dataToBeUploaded.intraop}</p>
+                                <img src={imageFile} alt="Preop"></img>
+                            </div>
+                            <button onClick={()=>{setModalIsOpen(false)}}>Confirm</button>
+                        </div>
+                    </Modal>              */}
             </main>    
           </div>
           )

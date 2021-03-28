@@ -9,10 +9,11 @@ import PatientCard from './PatientCard'
 import { useEffect } from 'react'
 
 
+
 const Dashboard = ({user, gotoLogin, gotoAddNew}) =>{
     var imagePath = user.imagePath;
     var image = `https://paddybaba.ddns.net/images/${imagePath}`
-    var image2 = `https://paddybaba.ddns.net/xray/itf.jpeg`
+    var image2 = `https://paddybaba.ddns.net/xray/hip.jpg`
 
     useEffect(()=>{
         localStorage.setItem("currentUser",JSON.stringify(user))
@@ -43,7 +44,7 @@ const Dashboard = ({user, gotoLogin, gotoAddNew}) =>{
                 <SearchField></SearchField>
             </div>
                 <div className="mt-3">
-                <h4>Recently Updated ...</h4>
+                <h5>Recently Updated ...</h5>
                 <div className={styles.scrollX}>
                     <PatientCard image = {image2}></PatientCard>
                     <PatientCard image = {image2}></PatientCard>

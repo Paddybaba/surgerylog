@@ -1,3 +1,20 @@
+.container_dash {
+  min-height: 100vh;
+  width: 100%;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+  align-content: center;
+  justify-content: flex-start;
+  font-family:'Source Code Pro', monospace;
+  color:chartreuse;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('https://paddybaba.ddns.net/bg/background.jpg')
+}
+
 .card{
     display: flex;
     flex-direction: column;
@@ -85,10 +102,22 @@
     overflow-x: auto;
     align-content: center; 
     justify-content: flex-start;
-    font-family:'Source Code Pro', monospace;
+    font-family: 'Merriweather', serif;
     color:chartreuse;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url('https://images.unsplash.com/photo-1489549132488-d00b7eee80f1?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80')
+    background-image: url('https://paddybaba.ddns.net/bg/background.jpg')
+  }
+
+  .modal{
+      border: 2px rgb(255, 47, 47) solid;
+      border-radius: 3px;
+      margin: 10%;
+      padding: 3%;
+      background-color: black;
+      color: chartreuse;
+      font-family:sans-serif;
+      overflow-y:auto
+
   }

@@ -50,7 +50,7 @@ export default function Home() {
       case "LOGIN" : return <LoginForm gotoDashboard={gotoDashboard} gotoRegister={gotoRegister} getUser={getUser}/>
       case "DASHBOARD" : return <Dashboard user={user} gotoLogin={gotoLogin} gotoAddNew={gotoAddNew}/>
       case "REGISTER" : return <Register gotoDashboard={gotoDashboard} gotoLogin={gotoLogin} getUser={getUser}/>
-      case "ADDNEW" : return <AddPatientForm gotoDashboard={gotoDashboard}/>
+      case "ADDNEW" : return <AddPatientForm gotoDashboard={gotoDashboard} user={user}/>
     }
    
       }
