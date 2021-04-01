@@ -61,9 +61,11 @@
     border: 2px solid chartreuse;
     border-radius: 3px;
     align-items: center;
-    width: 30vw;
+    width: 18vw;
+    height: fit-content;
     background-color: chartreuse;
-    max-width: 150px;
+    max-width: 120px;
+    max-height: 150px;
     margin: 4px;
 
 }
@@ -73,13 +75,13 @@
     cursor: pointer;
 }
 .fTitle{
-    font-size:0.5rem;
+    font-size:1.2vw;
     color: black;
     margin-bottom: 2px;
     font-weight: bold;
 }
 .fDate{
-    font-size: 0.4rem;
+    font-size: 1vw;
     font-weight: bold;
     margin-bottom: 2px;
     color: black;
@@ -92,7 +94,13 @@
     border: 1px solid black;
     border-radius: 50%;
 }
-
+.pImage{
+    height: auto;
+    max-height: 65%;
+    width: 98%;
+    min-height: 80px;
+    overflow: hidden;
+}
 .container_addNew {
     min-height: 100vh;
     width: 100%;

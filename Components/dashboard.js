@@ -6,26 +6,52 @@ import {useRouter} from 'next/router'
 import NewPatient from './NewPatient'
 import SearchField from './SearchField'
 import PatientCard from './PatientCard'
-import { useEffect } from 'react'
+import { useState,useEffect } from 'react'
 
 
 
-const Dashboard = ({user, gotoLogin, gotoAddNew}) =>{
+    function Dashboard({user, gotoLogin, gotoAddNew}){
     var imagePath = user.imagePath;
+    const [data, updateData]= useState([])
     var image = `https://paddybaba.ddns.net/images/${imagePath}`
     var image2 = `https://paddybaba.ddns.net/xray/hip.jpg`
 
+    
+    // const recentData = [    {
+    //     name : "Anup",
+    //     doa : "23/3/2021",
+    //     dod : "24/3/2021",
+    //     xraypath : "https://paddybaba.ddns.net/xray/hip.jpg"
+    //   },
+    //   {
+    //     name : "Mayank",
+    //     doa : "28/3/2021",
+    //     dod : "30/3/2021",
+    //     xraypath : 'https://paddybaba.ddns.net/images/12345.jpg'
+    //   }]
+
     useEffect(()=>{
         localStorage.setItem("currentUser",JSON.stringify(user))
+        getRecent();
         console.log(user)
     },[])
+
+    async function getRecent(){
+        const response = await fetch ('https://paddybaba.ddns.net/recent',{
+            method:'POST',
+            headers:{"Content-type":"application/json"},
+            body:JSON.stringify(user)
+            })
+        const data = await response.json();
+        updateData(data);
+    }
     
     return(
         <div>
             <Head>
                 <title>Dashboard</title>
                 <meta name="viewport" content="width=device-width maximum-scale=1.5" ></meta>
-            </Head>
+               </Head>
             <div className={styles.container_dash}>
                 <div className={styles.top}>
                     <h3 className="ma0">Surgery Log Software</h3>
@@ -46,20 +72,14 @@ const Dashboard = ({user, gotoLogin, gotoAddNew}) =>{
                 <div className="mt-3">
                 <h5>Recently Updated ...</h5>
                 <div className={styles.scrollX}>
-                    <PatientCard image = {image2}></PatientCard>
-                    <PatientCard image = {image2}></PatientCard>
-                    <PatientCard image = {image2}></PatientCard>
-                    <PatientCard image = {image2}></PatientCard>
-                    <PatientCard image = {image2}></PatientCard>
-                    <PatientCard image = {image2}></PatientCard>
-                    <PatientCard image = {image2}></PatientCard>
-                    <PatientCard image = {image2}></PatientCard>
-                    <PatientCard image = {image2}></PatientCard>
-                    <PatientCard image = {image2}></PatientCard>
-                    <PatientCard image = {image2}></PatientCard>
+                {
+                        data.map((patient, index)=>{
+                           return <PatientCard patient={patient}/>
+                        })
+                    }
+                    </div>                
                     
-                    
-                </div>
+           
 
             </div>
             
@@ -71,3 +91,4 @@ const Dashboard = ({user, gotoLogin, gotoAddNew}) =>{
 }
 
 export default Dashboard
+

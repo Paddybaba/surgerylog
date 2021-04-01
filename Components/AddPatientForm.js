@@ -17,7 +17,7 @@ function getToday(){
 }
 ////////  MAIN ...........
 const AddPatientForm = ({gotoDashboard, user}) => {
-    const user_email = user.email_address;
+    const user_email = user.email;
     
     const initialValues = {
         user : user_email,
@@ -54,6 +54,7 @@ const AddPatientForm = ({gotoDashboard, user}) => {
  async function onSubmitClick (event){
     event.preventDefault(); 
     let fd = new FormData();
+    console.log(values)
     fd.append('patientData', JSON.stringify(values))
     
     for (const file of imageFile){
@@ -71,7 +72,7 @@ const AddPatientForm = ({gotoDashboard, user}) => {
     })
     dataToBeUploaded = await response.json();
     alert(`Patient ${dataToBeUploaded.patientname} saved successfully in the database !!!`)
-    // gotoDashboard(); 
+    gotoDashboard(); 
 
 }
 const onResetClick = (event) =>{

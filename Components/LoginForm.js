@@ -22,7 +22,7 @@ const LoginForm = ({gotoDashboard,gotoRegister, getUser}) =>{
             const userDetails = {
               username : datafetched.user.username,
               imagePath : datafetched.user.imagePath,
-              email_address : datafetched.user.email,
+              email : datafetched.user.email,
               phoneNumber:datafetched.user.phoneNumber
             }
             getUser(userDetails)

@@ -10,12 +10,12 @@ import AddPatientForm from '../Components/AddPatientForm'
 export default function Home() {
    
     const [route, updateRoute] = useState("LOGIN");
-    const [user, updateUser] = useState( {username:"", email_address : "", phoneNumber:"", imagePath:""})
+    const [user, updateUser] = useState( {username:"", email : "", phoneNumber:"", imagePath:""})
     
     ////  PREVENT REFRESHING 
     useEffect(()=>{
       const   savedRoute = localStorage.getItem("currentRoute") || "LOGIN";
-      const savedUser = JSON.parse(localStorage.getItem("currentUser")) || {username:"", email_address : "", phoneNumber:"", imagePath:""} ;
+      const savedUser = JSON.parse(localStorage.getItem("currentUser")) || {username:"", email : "", phoneNumber:"", imagePath:""} ;
       updateRoute(savedRoute)
       updateUser(savedUser)
       if(savedUser.username){
@@ -44,6 +44,7 @@ export default function Home() {
     function gotoAddNew(){
       updateRoute("ADDNEW")
     }
+   
 ///////////   CONDITIONAL RENDERING    ////////////////////////////
   
     switch(route){
