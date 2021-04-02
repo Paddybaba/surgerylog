@@ -7,11 +7,13 @@ import Modal from 'react-modal'
 
 Modal.setAppElement('main')
 var dataToBeUploaded = ""
+
+  
 function getToday(){
     var date = new Date;
     var yyyy = date.getFullYear();
-    var mm = date.getMonth();
-    var dd = date.getDate();
+    var mm = `${date.getMonth() + 1}`.padStart(2, '0');
+    var dd = `${date.getDate()}`.padStart(2, '0');
 
     return `${yyyy}-${mm}-${dd}`
 }
@@ -22,11 +24,11 @@ const AddPatientForm = ({gotoDashboard, user}) => {
     const initialValues = {
         user : user_email,
         patientname : "",
-        age : null,
+        age : 60,
         gender : "Male",
         address: "",
         city:"",
-        phone:null,
+        phone:1112223334,
         hospital:"Gupta Hospital, Dhamtari",
         diagnosis : "",
         aoclass : "",
@@ -105,8 +107,8 @@ const onResetClick = (event) =>{
                         <input id="age" value={values.age} onChange={handleInputChange} type="number" name="age" className="ma2 ba b--silver br2 w-20"
                             ></input>
 
-                        <label className="ph3" htmlFor="age">Gender </label>
-                        <select value={values.gender} onChange={handleInputChange}>
+                        <label className="ph2" htmlFor="age">Gender </label>
+                        <select className="w-20" defaultValue={values.gender} onChange={handleInputChange}>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                         </select>

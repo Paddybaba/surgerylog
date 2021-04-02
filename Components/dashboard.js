@@ -74,7 +74,7 @@ import { useState,useEffect } from 'react'
                 <div className={styles.scrollX}>
                 {
                         data.map((patient, index)=>{
-                           return <PatientCard patient={patient}/>
+                           return <PatientCard key={index} patient={patient}/>
                         })
                     }
                     </div>                

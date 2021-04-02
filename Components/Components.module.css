@@ -67,6 +67,7 @@
     max-width: 120px;
     max-height: 150px;
     margin: 4px;
+    overflow: hidden;
 
 }
 .pCard:hover{
@@ -97,9 +98,9 @@
 .pImage{
     height: auto;
     max-height: 65%;
-    width: 98%;
+    /* width: 98%; */
     min-height: 80px;
-    overflow: hidden;
+   
 }
 .container_addNew {
     min-height: 100vh;
