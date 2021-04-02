@@ -77,7 +77,7 @@ import { useState,useEffect } from 'react'
                            return <PatientCard key={index} patient={patient}/>
                         })
                     }
-                    </div>                
+                </div>                
                     
            
 

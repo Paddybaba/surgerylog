@@ -73,7 +73,8 @@ const AddPatientForm = ({gotoDashboard, user}) => {
         body : fd
     })
     dataToBeUploaded = await response.json();
-    alert(`Patient ${dataToBeUploaded.patientname} saved successfully in the database !!!`)
+    console.log(dataToBeUploaded);
+    alert(`Patient ${dataToBeUploaded.patient} saved successfully in the database !!! \n Click OK to go back`)
     gotoDashboard(); 
 
 }
