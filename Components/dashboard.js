@@ -7,12 +7,16 @@ import NewPatient from './NewPatient'
 import SearchField from './SearchField'
 import PatientCard from './PatientCard'
 import { useState,useEffect } from 'react'
+import PatientDetails from './PatientDetails'
+import {Modal, Button} from 'react-bootstrap'
 
 
 
     function Dashboard({user, gotoLogin, gotoAddNew}){
     var imagePath = user.imagePath;
+    const [modalShow, setModalShow] = useState(false);
     const [data, updateData]= useState([])
+    const [patient, updatePatient]= useState();
     var image = `https://paddybaba.ddns.net/images/${imagePath}`
     var image2 = `https://paddybaba.ddns.net/xray/hip.jpg`
 
@@ -45,6 +49,47 @@ import { useState,useEffect } from 'react'
         const data = await response.json();
         updateData(data);
     }
+
+    async function getPatientDetails(){
+        
+        const patient_id = event.target.parentNode.id;
+        const patient = {
+            patient : patient_id,
+            user : user.email
+        }
+
+        const response = await fetch('https://paddybaba.ddns.net/patient',{
+            method:'POST',
+            headers:{"Content-type":"application/json"},
+            body:JSON.stringify(patient)
+        })
+
+        const data = await response.json();
+        
+        console.log(data)
+        updatePatient(data);
+        setModalShow(true);
+    }
+/////////////// MODAL >>>>>>>>>>>>>>
+
+    function MyVerticallyCenteredModal(patient) {
+        return (
+          <Modal
+            {...patient}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+          >
+            <Modal.Body>
+              <h4>Coming Soon !!!</h4>
+              <img  className={styles.modalImage} src="/images/quote.jpg"></img>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={patient.onHide}>Close</Button>
+            </Modal.Footer>
+          </Modal>
+        );
+      }
     
     return(
         <div>
@@ -74,14 +119,15 @@ import { useState,useEffect } from 'react'
                 <div className={styles.scrollX}>
                 {
                         data.map((patient, index)=>{
-                           return <PatientCard key={index} patient={patient}/>
-                        })
+                           return <PatientCard key={index} patient={patient} getPatientDetails={getPatientDetails}/>                        })
                     }
-                </div>                
-                    
-           
-
-            </div>
+                </div>             
+                 </div>
+                 <MyVerticallyCenteredModal
+                     show={modalShow}
+                     onHide={() => setModalShow(false)}
+                     patient={patient}
+                                                        />
             
             
         </div>

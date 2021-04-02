@@ -61,10 +61,11 @@
     border: 2px solid chartreuse;
     border-radius: 3px;
     align-items: center;
-    width: 18vw;
-    height: fit-content;
+    width: 10vw;
+    height: 130px;
     background-color: chartreuse;
     max-width: 120px;
+    min-width: 80px;
     max-height: 150px;
     margin: 4px;
     overflow: hidden;
@@ -98,7 +99,7 @@
 .pImage{
     height: auto;
     max-height: 65%;
-    /* width: 98%; */
+    width: 98%;
     min-height: 80px;
    
 }

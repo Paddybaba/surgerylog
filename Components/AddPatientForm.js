@@ -70,6 +70,7 @@ const AddPatientForm = ({gotoDashboard, user}) => {
 
     const response = await fetch('https://paddybaba.ddns.net//uploadForm', {
         method:"POST",
+        origin: "CORS",
         body : fd
     })
     dataToBeUploaded = await response.json();
