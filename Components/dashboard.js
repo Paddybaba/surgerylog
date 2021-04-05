@@ -16,23 +16,26 @@ import {Modal, Button} from 'react-bootstrap'
     var imagePath = user.imagePath;
     const [modalShow, setModalShow] = useState(false);
     const [data, updateData]= useState([])
-    const [patient, updatePatient]= useState();
+    const [patient, updatePatient]= useState({
+        patientname : "",
+        age : 60,
+        gender : "Male",
+        address: "",
+        city:"",
+        phone:1112223334,
+        hospital:"Gupta Hospital, Dhamtari",
+        diagnosis : "",
+        aoclass : "",
+        admissiondate :"",
+        dischargedate : "",
+        clinicalhistory :"",
+        clinicalfindings:"",
+        surgerydone :"",
+        anaesthesia : "Spinal",
+        intraop : "None of special mention",
+        duration : ""});
     var image = `https://paddybaba.ddns.net/images/${imagePath}`
     var image2 = `https://paddybaba.ddns.net/xray/hip.jpg`
-
-    
-    // const recentData = [    {
-    //     name : "Anup",
-    //     doa : "23/3/2021",
-    //     dod : "24/3/2021",
-    //     xraypath : "https://paddybaba.ddns.net/xray/hip.jpg"
-    //   },
-    //   {
-    //     name : "Mayank",
-    //     doa : "28/3/2021",
-    //     dod : "30/3/2021",
-    //     xraypath : 'https://paddybaba.ddns.net/images/12345.jpg'
-    //   }]
 
     useEffect(()=>{
         localStorage.setItem("currentUser",JSON.stringify(user))
@@ -66,27 +69,44 @@ import {Modal, Button} from 'react-bootstrap'
 
         const data = await response.json();
         
-        console.log(data)
-        updatePatient(data);
+        // console.log(data[0])
+        updatePatient(data[0]);
         setModalShow(true);
     }
 /////////////// MODAL >>>>>>>>>>>>>>
 
-    function MyVerticallyCenteredModal(patient) {
+    function MyVerticallyCenteredModal(props) {
+        console.log(props.patient)
         return (
           <Modal
-            {...patient}
+            {...props}
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
           >
-            <Modal.Body>
-              <h4>Coming Soon !!!</h4>
-              <img  className={styles.modalImage} src="/images/quote.jpg"></img>
+          <div className={styles.modal}>
+          <Modal.Body >
+              <h2 className="tc">{props.patient.patientname}</h2>
+              <p>Age : {props.patient.age}       Gender: {props.patient.gender}</p>
+              <p>Address : {props.patient.address}</p>
+              <p>Admission : {props.patient.admissiondate}  Discharge: {props.patient.dischargedate}</p>
+              <p>Phone : {props.patient.phone}</p>
+              <p>Diagnosis: {props.patient.diagnosis}</p>
+              <p>History :{props.patient.clinicalhistory}</p>
+              <p>Findings :{props.patient.clinicalfindings}</p>
+              <p>Surgery :{props.patient.surgerydone}</p>
+              <p>Anaesthesia : {props.patient.anaesthesia}</p>
+              <p>Intraop Findings :{props.patient.intraop}</p>
+
+
+              {/* <img  className={styles.modalImage} src="/images/quote.jpg"></img> */}
             </Modal.Body>
-            <Modal.Footer>
-              <Button onClick={patient.onHide}>Close</Button>
+            <Modal.Footer >
+              <Button onClick={props.onHide}>Close</Button>
+              <Button onClick={props.onHide}>Xrays Coming Soon</Button>
             </Modal.Footer>
+          </div>
+           
           </Modal>
         );
       }

@@ -50,8 +50,7 @@
     border: thin silver;
     border-radius: 2px;
     width: 70%;
-    margin-left: 0.8rem;
-    
+    margin-left: 0.8rem;    
  }
 /* mt2 ba b--silver br2 */
 .pCard{
@@ -120,14 +119,3 @@
     background-image: url('https://paddybaba.ddns.net/bg/background.jpg')
   }
 
-  .modal{
-      border: 2px rgb(255, 47, 47) solid;
-      border-radius: 3px;
-      margin: 10%;
-      padding: 3%;
-      background-color: black;
-      color: chartreuse;
-      font-family:sans-serif;
-      overflow-y:auto
-
-  }
