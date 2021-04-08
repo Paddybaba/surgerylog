@@ -76,13 +76,13 @@
     cursor: pointer;
 }
 .fTitle{
-    font-size:1.2vw;
+    font-size:10px;
     color: black;
     margin-bottom: 2px;
     font-weight: bold;
 }
 .fDate{
-    font-size: 1vw;
+    font-size: 8px;
     font-weight: bold;
     margin-bottom: 2px;
     color: black;
