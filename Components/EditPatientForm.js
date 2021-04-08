@@ -1,13 +1,9 @@
 import Head from 'next/head'
 import styles from '../Components/Components.module.css'
 import { useState } from 'react'
-import Modal from 'react-modal'
-
-
 
 Modal.setAppElement('main')
 var dataToBeUploaded = ""
-
   
 function getToday(){
     var date = new Date;
@@ -17,34 +13,15 @@ function getToday(){
 
     return `${yyyy}-${mm}-${dd}`
 }
-////////  MAIN ...........
-const AddPatientForm = ({gotoDashboard, user}) => {
+
+////////  MAIN FUNCTION...........
+const EditPatientForm = ({gotoDashboard, user, selectedPatient}) => {
     const user_email = user.email;
     
-    const initialValues = {
-        user : user_email,
-        patientname : "",
-        age : 60,
-        gender : "",
-        address: "",
-        city:"",
-        phone:1112223334,
-        hospital:"Gupta Hospital, Dhamtari",
-        diagnosis : "",
-        aoclass : "",
-        admissiondate :getToday(),
-        dischargedate : getToday(),
-        clinicalhistory :"",
-        clinicalfindings:"",
-        surgerydone :"",
-        surgerydate:getToday(),
-        anaesthesia : "",
-        intraop : "",
-        duration : ""
-    }   
- const [values, setValues]= useState(initialValues)  
- const [imageFile, setImageFile]=useState("")
-//  const [modalIsOpen, setModalIsOpen]= useState(false)
+    const initialValues = selectedPatient
+
+    const [values, setValues]= useState(initialValues)  
+    const [imageFile, setImageFile]=useState("")
 
 
  const handleInputChange=(event)=>{
@@ -69,9 +46,10 @@ const AddPatientForm = ({gotoDashboard, user}) => {
         origin: "CORS",
         body : fd
     })
+    
     dataToBeUploaded = await response.json();
     console.log(dataToBeUploaded);
-    alert(`Patient ${dataToBeUploaded.patient} saved successfully in the database !!! \n Click OK to go back`)
+    alert(`Patient ${dataToBeUploaded.patient} updated successfully in the database !!! \n Click OK to go back`)
     gotoDashboard(); 
 
 }
@@ -84,14 +62,14 @@ const onResetClick = (event) =>{
         <div className={styles.container_addNew}>
             <div>
              <Head>
-                <title>Add New Patient</title>
+                <title>Edit Patient</title>
                 <link rel="icon" href="/favicon.ico" />
              </Head>
             </div>
         
             <main className="">
                 <h1 className="f3 tc">
-                    Add Details of Patient 
+                    Edit Details of Patient 
                 </h1>
 
                 <form className=" bg-transparent pa3 ba b--silver br3">
@@ -107,8 +85,8 @@ const onResetClick = (event) =>{
 
                         <label className="ph2" htmlFor="age">Gender </label>
                         <select name="gender" className="w-20" defaultValue={values.gender} onChange={handleInputChange}>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
                         </select>
                     </div>
                     <div className="">
@@ -160,22 +138,22 @@ const onResetClick = (event) =>{
                         <input id="clinicalfindings" value={values.clinicalfindings} onChange={handleInputChange} type="text" name="clinicalfindings" className="w-90 ma2 f5 ba b--silver br2"
                         ></input>
                     </div>
-                    <label className="" htmlFor="surgerydone">Surgery</label>
-                        <input id="surgerydone" value={values.surgerydone} onChange={handleInputChange} type="text" name="surgerydone" className="w-60 ma2 ba b--silver br2"
-                        ></input>
-                    <div>
                     <div>
                     <label className="" htmlFor="surgerydate">Date of Surgery</label>
                         <input id="surgerydate" value={values.surgerydate} onChange={handleInputChange} type="date" name="surgerydate" className="w-30 ma2 ba b--silver br2"
                         ></input>
                     </div>
+                    <label className="" htmlFor="surgerydone">Surgery</label>
+                        <input id="surgerydone" value={values.surgerydone} onChange={handleInputChange} type="text" name="surgerydone" className="w-60 ma2 ba b--silver br2"
+                        ></input>
+                    <div>
                     <div>
                     <label className="ph2" htmlFor="age">Anaesthesia </label>
                         <select name="anaesthesia" className="w-20" defaultValue={values.anaesthesia} onChange={handleInputChange}>
-                            <option value="spinal">Spinal Anaesthesia</option>
-                            <option value="general">General Anaesthesia</option>
-                            <option value="local">Local Anaesthesia</option>
-                            <option value="block">Regional Block</option>
+                            <option value="Spinal">Spinal Anaesthesia</option>
+                            <option value="General">General Anaesthesia</option>
+                            <option value="Local">Local Anaesthesia</option>
+                            <option value="Block">Regional Block</option>
                         </select>
                     </div>
                     <div>
@@ -204,33 +182,9 @@ const onResetClick = (event) =>{
                     </div>
                     </form>
                     
-                    {/* <Modal isOpen={modalIsOpen} className={styles.modal} autoFocus={true} >
-                        <div>
-                            <h3 className="f4">New patient will be added with following details</h3>
-                            <div className="f6">
-                                <p>Name : {dataToBeUploaded.patientname} </p>
-                                <p>Age : {dataToBeUploaded.age}</p>
-                                <p>Gender : {dataToBeUploaded.gender}</p>
-                                <p>Address : {dataToBeUploaded.address}</p>
-                                <p>City : {dataToBeUploaded.city}</p>
-                                <p>Phone : {dataToBeUploaded.phone}</p>
-                                <p>Hospital : {dataToBeUploaded.hospital}</p>
-                                <p>Diagnosis : {dataToBeUploaded.diagnosis}</p>
-                                <p>AO Classification : {dataToBeUploaded.aoclass}</p>
-                                <p>Date of Admission : {dataToBeUploaded.admissiondate}</p>
-                                <p>Date of Discharge : {dataToBeUploaded.dischargedate}</p>
-                                <p>Clinical History : {dataToBeUploaded.clinicalhistory}</p>
-                                <p>Clinical Findings : {dataToBeUploaded.clinicalfindings}</p>
-                                <p>Surgery Done : {dataToBeUploaded.surgerydone}</p>
-                                <p>Intra-Op  : {dataToBeUploaded.intraop}</p>
-                                <img src={imageFile} alt="Preop"></img>
-                            </div>
-                            <button onClick={()=>{setModalIsOpen(false)}}>Confirm</button>
-                        </div>
-                    </Modal>              */}
             </main>    
           </div>
           )
 
 }
-export default AddPatientForm;
+export default EditPatientForm;

@@ -5,17 +5,21 @@ import Head from 'next/head'
 import {useRouter} from 'next/router'
 import NewPatient from './NewPatient'
 import SearchField from './SearchField'
-import PatientCard from './PatientCard'
+
 import { useState,useEffect } from 'react'
 import PatientDetails from './PatientDetails'
-import {Modal, Button} from 'react-bootstrap'
-
+import PatientModal from './PatientModal'
+import Recent from './Recent'
+import ListofPatients from './ListofPatients'
+// import { Button } from 'react-bootstrap'
+import ShowAll from './ShowAll'
 
 
     function Dashboard({user, gotoLogin, gotoAddNew}){
     var imagePath = user.imagePath;
     const [modalShow, setModalShow] = useState(false);
     const [data, updateData]= useState([])
+    const [showRecent, setShowRecent]= useState(true)
     const [patient, updatePatient]= useState({
         patientname : "",
         age : 60,
@@ -36,9 +40,12 @@ import {Modal, Button} from 'react-bootstrap'
         duration : ""});
     var image = `https://paddybaba.ddns.net/images/${imagePath}`
     var image2 = `https://paddybaba.ddns.net/xray/hip.jpg`
+    
 
     useEffect(()=>{
         localStorage.setItem("currentUser",JSON.stringify(user))
+        // buttonToggle = document.getElementById("toggleButton");
+        // buttonToggle.value = "Show All";
         getRecent();
         console.log(user)
     },[])
@@ -69,47 +76,13 @@ import {Modal, Button} from 'react-bootstrap'
 
         const data = await response.json();
         
-        // console.log(data[0])
         updatePatient(data[0]);
         setModalShow(true);
     }
-/////////////// MODAL >>>>>>>>>>>>>>
 
-    function MyVerticallyCenteredModal(props) {
-        console.log(props.patient)
-        return (
-          <Modal
-            {...props}
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-          >
-          <div className={styles.modal}>
-          <Modal.Body >
-              <h2 className="tc">{props.patient.patientname}</h2>
-              <p>Age : {props.patient.age}       Gender: {props.patient.gender}</p>
-              <p>Address : {props.patient.address}</p>
-              <p>Admission : {props.patient.admissiondate}  Discharge: {props.patient.dischargedate}</p>
-              <p>Phone : {props.patient.phone}</p>
-              <p>Diagnosis: {props.patient.diagnosis}</p>
-              <p>History :{props.patient.clinicalhistory}</p>
-              <p>Findings :{props.patient.clinicalfindings}</p>
-              <p>Surgery :{props.patient.surgerydone}</p>
-              <p>Anaesthesia : {props.patient.anaesthesia}</p>
-              <p>Intraop Findings :{props.patient.intraop}</p>
-
-
-              {/* <img  className={styles.modalImage} src="/images/quote.jpg"></img> */}
-            </Modal.Body>
-            <Modal.Footer >
-              <Button onClick={props.onHide}>Close</Button>
-              <Button onClick={props.onHide}>Xrays Coming Soon</Button>
-            </Modal.Footer>
-          </div>
-           
-          </Modal>
-        );
-      }
+    function showAllPaients(){
+        setShowRecent(!showRecent);
+    }
     
     return(
         <div>
@@ -132,18 +105,25 @@ import {Modal, Button} from 'react-bootstrap'
             <div className="flex justify-between ma3 mt5">
                 
                 <NewPatient gotoAddNew={gotoAddNew}></NewPatient>
+               
+                <ShowAll    showAllPatients={showAllPaients}
+                            showRecent={showRecent}></ShowAll>
                 <SearchField></SearchField>
             </div>
-                <div className="mt-3">
-                <h5>Recently Updated ...</h5>
-                <div className={styles.scrollX}>
-                {
-                        data.map((patient, index)=>{
-                           return <PatientCard key={index} patient={patient} getPatientDetails={getPatientDetails}/>                        })
-                    }
-                </div>             
-                 </div>
-                 <MyVerticallyCenteredModal
+            {/* ///////// Dsiplaying Recent or All Patients Depending upon showRecent true:false */}
+
+                { showRecent? 
+                    <Recent 
+                     data = {data}
+                     getPatientDetails = {getPatientDetails}   
+                    /> 
+                    : 
+                    <ListofPatients
+                    data = {data}
+                    getPatientDetails = {getPatientDetails} /> }  
+                
+                
+                 <PatientModal
                      show={modalShow}
                      onHide={() => setModalShow(false)}
                      patient={patient}

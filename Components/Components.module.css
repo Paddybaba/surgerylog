@@ -119,3 +119,52 @@
     background-image: url('https://paddybaba.ddns.net/bg/background.jpg')
   }
 
+  .scrollX{
+    margin-top: 0.5rem;
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .modalImage{
+    width: 50%;
+  }
+  .modal{
+    border: 2px rgb(89, 255, 47) solid;
+    border-radius: 3px;
+    padding: 3%;
+    background-color: #21D4FD;
+    background: linear-gradient(45deg, #ebf1f6 0%,#abd3ee 47%,#89c3eb 100%,#d5ebfb 100%);
+    font-family:sans-serif;
+    overflow-y:auto
+  
+  }
+  .left{
+      margin-right: auto;
+  }
+
+  .banner{
+      /* border: 1px solid chartreuse; */
+      margin-top: 1px;
+      border-radius: 4px;
+      display: flex;
+      height: 2.5em;
+      background: linear-gradient(45deg, #ebf1f6 0%,#abd3ee 47%,#89c3eb 100%,#d5ebfb 100%);
+      color: black;
+      /* width : 90% */
+  }
+  .bannerImage{
+      /* height: fit-content; */
+      align-items: stretch;
+      width : 60px; 
+  }
+
+  .listBox{
+      margin-top: 10px;
+      padding-left: 1%;
+      justify-self: center;
+      width:98%;
+      height: 40%;
+      overflow-y: scroll;
+  }
+
