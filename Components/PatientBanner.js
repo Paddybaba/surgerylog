@@ -7,7 +7,6 @@ const PatientBanner = ({patient, getPatientDetails}) =>{
         xray = "/images/noxray.png" 
     }
     
-    // console.log(patient.diagnosis);
     return(
         <div className={styles.banner} onClick={getPatientDetails} id={patient.patient_id}>
             <img className={styles.bannerImage} src={xray} alt="X-Ray"></img>

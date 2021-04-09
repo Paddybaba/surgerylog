@@ -1,7 +1,6 @@
 import styles from '../Components/Components.module.css'
 import PatientCard from './PatientCard'
 function Recent({data,getPatientDetails}){
-    console.log(data);
     return(
         <div className="mt-3">
                 <h5>Recently Updated ...</h5>

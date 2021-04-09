@@ -15,11 +15,12 @@ import ListofPatients from './ListofPatients'
 import ShowAll from './ShowAll'
 
 
-    function Dashboard({user, gotoLogin, gotoAddNew}){
+    function Dashboard({user, gotoLogin, gotoAddNew, gotoEditPatient, getSelectedPatient}){
     var imagePath = user.imagePath;
     const [modalShow, setModalShow] = useState(false);
     const [data, updateData]= useState([])
     const [showRecent, setShowRecent]= useState(true)
+
     const [patient, updatePatient]= useState({
         patientname : "",
         age : 60,
@@ -77,6 +78,7 @@ import ShowAll from './ShowAll'
         const data = await response.json();
         
         updatePatient(data[0]);
+        getSelectedPatient(data[0]);
         setModalShow(true);
     }
 
@@ -127,6 +129,7 @@ import ShowAll from './ShowAll'
                      show={modalShow}
                      onHide={() => setModalShow(false)}
                      patient={patient}
+                     gotoEditPatient={gotoEditPatient}
                                                         />
             
             

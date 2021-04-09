@@ -5,7 +5,7 @@ import styles from '../Components/Components.module.css'
   /////// MODAL >>>>>
 
   function PatientModal(props) {
-    console.log(props.patient)
+    // console.log(props.patient)
     return (
       <Modal
         {...props}
@@ -32,7 +32,7 @@ import styles from '../Components/Components.module.css'
         </Modal.Body>
         <Modal.Footer >
           <Button className={styles.left} variant="danger" onClick={props.onHide}>Delete</Button>
-          <Button onClick={props.onHide}>Edit</Button>
+          <Button onClick={props.gotoEditPatient}>Edit</Button>
           <Button onClick={props.onHide}>Close</Button>
           <Button onClick={props.onHide}>Xrays</Button>
           

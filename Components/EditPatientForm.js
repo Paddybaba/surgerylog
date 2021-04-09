@@ -2,7 +2,6 @@ import Head from 'next/head'
 import styles from '../Components/Components.module.css'
 import { useState } from 'react'
 
-Modal.setAppElement('main')
 var dataToBeUploaded = ""
   
 function getToday(){
@@ -17,11 +16,31 @@ function getToday(){
 ////////  MAIN FUNCTION...........
 const EditPatientForm = ({gotoDashboard, user, selectedPatient}) => {
     const user_email = user.email;
-    
-    const initialValues = selectedPatient
+    // console.log(selectedPatient);
+    // const initialValues = {
+    //     patientname : selectedPatient.patientname,
+    //     age : 60,
+    //     gender : selectedPatient.gender,
+    //     address: selectedPatient.address,
+    //     city:selectedPatient.city,
+    //     phone:selectedPatient.phone,
+    //     hospital:selectedPatient.hospital,
+    //     diagnosis : selectedPatient.diagnosis,
+    //     aoclass : selectedPatient.aoclass,
+    //     admissiondate : selectedPatient.admissiondate,
+    //     dischargedate : selectedPatient.dischargedate,
+    //     clinicalhistory : selectedPatient.clinicalhistory,
+    //     clinicalfindings: selectedPatient.clinicalfindings,
+    //     surgerydone : selectedPatient.surgerydone,
+    //     surgerydate: selectedPatient.surgerydate,
+    //     anaesthesia : selectedPatient.anaesthesia,
+    //     intraop : selectedPatient.intraop,
+    //     duration : selectedPatient.duration
+    // }
 
-    const [values, setValues]= useState(initialValues)  
+    const [values, setValues]= useState(selectedPatient)  
     const [imageFile, setImageFile]=useState("")
+
 
 
  const handleInputChange=(event)=>{
@@ -75,7 +94,7 @@ const onResetClick = (event) =>{
                 <form className=" bg-transparent pa3 ba b--silver br3">
                     <div className="">
                         <label className="tl" htmlFor="patientname">Name* </label>
-                        <input id="username" value={values.name} onChange={handleInputChange} type="text" name="patientname" className="w-90 ma2 ba b--silver br2"
+                        <input id="username" value={values.patientname} onChange={handleInputChange} type="text" name="patientname" className="w-90 ma2 ba b--silver br2"
                            ></input>
                     </div>
                     <div className="">
@@ -174,7 +193,7 @@ const onResetClick = (event) =>{
                     </div>
         
                     <div className="flex justify-around">
-                        <button className="color-inherit bg-black-90 dim pointer mt1 mb2 ba b--silver br2" type="submit" onClick={(e)=>onSubmitClick(e)}>Submit</button>
+                        <button className="color-inherit bg-black-90 dim pointer mt1 mb2 ba b--silver br2" type="submit" onClick={(e)=>onSubmitClick(e)}>Update</button>
                         <button className="color-inherit bg-black-90 dim pointer mt1 mb2 ba b--silver br2" type="reset" onClick={(e)=>{onResetClick(e)}}>Reset</button>
                         <button className="color-inherit bg-black-90 dim pointer mt1 mb2 ba b--silver br2" type="button" onClick={()=>{gotoDashboard()}}>Cancel</button>
                     </div>
