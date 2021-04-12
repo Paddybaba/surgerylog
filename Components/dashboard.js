@@ -5,12 +5,13 @@ import Head from 'next/head'
 import {useRouter} from 'next/router'
 import NewPatient from './NewPatient'
 import SearchField from './SearchField'
-
+import axios from 'axios'
 import { useState,useEffect } from 'react'
 import PatientDetails from './PatientDetails'
 import PatientModal from './PatientModal'
 import Recent from './Recent'
 import ListofPatients from './ListofPatients'
+import {Modal, Button} from 'react-bootstrap'
 // import { Button } from 'react-bootstrap'
 import ShowAll from './ShowAll'
 
@@ -45,8 +46,6 @@ import ShowAll from './ShowAll'
 
     useEffect(()=>{
         localStorage.setItem("currentUser",JSON.stringify(user))
-        // buttonToggle = document.getElementById("toggleButton");
-        // buttonToggle.value = "Show All";
         getRecent();
         console.log(user)
     },[])
@@ -86,6 +85,30 @@ import ShowAll from './ShowAll'
         setShowRecent(!showRecent);
     }
     
+    async function deletePatient(patient_id){
+        if(confirm("Are you sure to delete this record ?")){
+            var data = {
+                patient_id : patient_id
+            }
+            // const response = await axios({
+            //     method: 'post',
+            //     url: 'https:paddybaba.ddns.net/deletePatient',
+            //     data:JSON.stringify(data),
+            //     headers:{"Content-type": "application-json"}
+            //   });
+            // }
+            const response= await fetch("https://paddybaba.ddns.net/deletePatient",
+                            {method: "POST",
+                            headers:{"Content-type":"application/json"},
+                            body:JSON.stringify(data)
+                            })
+                    setModalShow(false); 
+                    getRecent();   
+        }
+        else{//do nothing}
+                    
+        }
+    }
     return(
         <div>
             <Head>
@@ -130,6 +153,8 @@ import ShowAll from './ShowAll'
                      onHide={() => setModalShow(false)}
                      patient={patient}
                      gotoEditPatient={gotoEditPatient}
+                     deletePatient = {deletePatient}
+                     getSelectedPatient = {getSelectedPatient}  
                                                         />
             
             

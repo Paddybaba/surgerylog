@@ -16,32 +16,8 @@ function getToday(){
 ////////  MAIN FUNCTION...........
 const EditPatientForm = ({gotoDashboard, user, selectedPatient}) => {
     const user_email = user.email;
-    // console.log(selectedPatient);
-    // const initialValues = {
-    //     patientname : selectedPatient.patientname,
-    //     age : 60,
-    //     gender : selectedPatient.gender,
-    //     address: selectedPatient.address,
-    //     city:selectedPatient.city,
-    //     phone:selectedPatient.phone,
-    //     hospital:selectedPatient.hospital,
-    //     diagnosis : selectedPatient.diagnosis,
-    //     aoclass : selectedPatient.aoclass,
-    //     admissiondate : selectedPatient.admissiondate,
-    //     dischargedate : selectedPatient.dischargedate,
-    //     clinicalhistory : selectedPatient.clinicalhistory,
-    //     clinicalfindings: selectedPatient.clinicalfindings,
-    //     surgerydone : selectedPatient.surgerydone,
-    //     surgerydate: selectedPatient.surgerydate,
-    //     anaesthesia : selectedPatient.anaesthesia,
-    //     intraop : selectedPatient.intraop,
-    //     duration : selectedPatient.duration
-    // }
-
     const [values, setValues]= useState(selectedPatient)  
     const [imageFile, setImageFile]=useState("")
-
-
 
  const handleInputChange=(event)=>{
     const {name,value} = event.target;
@@ -74,7 +50,7 @@ const EditPatientForm = ({gotoDashboard, user, selectedPatient}) => {
 }
 const onResetClick = (event) =>{
     event.preventDefault();
-    setValues(initialValues);
+    setValues(selectedPatient);
 }
  
     return (

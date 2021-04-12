@@ -31,7 +31,7 @@ import styles from '../Components/Components.module.css'
           {/* <img  className={styles.modalImage} src="/images/quote.jpg"></img> */}
         </Modal.Body>
         <Modal.Footer >
-          <Button className={styles.left} variant="danger" onClick={props.onHide}>Delete</Button>
+          <Button className={styles.left} variant="danger" onClick={()=>{props.deletePatient(props.patient.patient_id)}}>Delete</Button>
           <Button onClick={props.gotoEditPatient}>Edit</Button>
           <Button onClick={props.onHide}>Close</Button>
           <Button onClick={props.onHide}>Xrays</Button>
