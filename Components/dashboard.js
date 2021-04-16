@@ -14,11 +14,13 @@ import ListofPatients from './ListofPatients'
 import {Modal, Button} from 'react-bootstrap'
 // import { Button } from 'react-bootstrap'
 import ShowAll from './ShowAll'
-
+import PatientImages from './PatientImages'
 
     function Dashboard({user, gotoLogin, gotoAddNew, gotoEditPatient, getSelectedPatient}){
     var imagePath = user.imagePath;
     const [modalShow, setModalShow] = useState(false);
+    const [imagesShow, setImagesShow] = useState(false);
+    const [xrayPaths, setXrayPaths] = useState([{xraypath:""}]);
     const [data, updateData]= useState([])
     const [showRecent, setShowRecent]= useState(true)
 
@@ -90,13 +92,6 @@ import ShowAll from './ShowAll'
             var data = {
                 patient_id : patient_id
             }
-            // const response = await axios({
-            //     method: 'post',
-            //     url: 'https:paddybaba.ddns.net/deletePatient',
-            //     data:JSON.stringify(data),
-            //     headers:{"Content-type": "application-json"}
-            //   });
-            // }
             const response= await fetch("https://paddybaba.ddns.net/deletePatient",
                             {method: "POST",
                             headers:{"Content-type":"application/json"},
@@ -108,6 +103,14 @@ import ShowAll from './ShowAll'
         else{//do nothing}
                     
         }
+    }
+
+    const showImages = async  (patient_id) =>{
+        const response = await axios.post("https://paddybaba.ddns.net/showImages",{patient_id})
+        const imageArray = await response.data;
+        setXrayPaths(imageArray);
+        setModalShow(false);
+        setImagesShow(true);
     }
     return(
         <div>
@@ -154,10 +157,14 @@ import ShowAll from './ShowAll'
                      patient={patient}
                      gotoEditPatient={gotoEditPatient}
                      deletePatient = {deletePatient}
-                     getSelectedPatient = {getSelectedPatient}  
-                                                        />
+                     showImages = {showImages}/>
             
-            
+                    <PatientImages
+                        show = {imagesShow} 
+                        onHide={()=>setImagesShow(false)}
+                        patient = {patient}
+                        user = {user}
+                        xrayPaths = {xrayPaths}/>
         </div>
         </div>
         

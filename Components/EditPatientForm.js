@@ -157,12 +157,12 @@ const onResetClick = (event) =>{
                         ></input>
                     </div>
                     <div>
-                    <label className="" htmlFor="preopxray">Preop Images <span className="f8"> (Max 3 file)</span></label>
-                        <input  id="preopxray"  
+                    <label className="" htmlFor="xrays">Images <span className="f8"> (Max 3 file)</span></label>
+                        <input  id="xray"  
                                 accept="image/*" 
                                 onChange={(event)=>{setImageFile(event.target.files)}} 
                                 type="file" 
-                                name="preopxray" 
+                                name="xray" 
                                 multiple
                                 className="w-90 ma2 ba b--silver br2"
                         ></input>

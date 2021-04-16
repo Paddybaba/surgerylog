@@ -2,12 +2,11 @@ import Head from 'next/head'
 import styles from '../Components/Components.module.css'
 import { useState } from 'react'
 import Modal from 'react-modal'
-
+import Resizer from "react-image-file-resizer";
 
 
 Modal.setAppElement('main')
 var dataToBeUploaded = ""
-
   
 function getToday(){
     var date = new Date;
@@ -17,8 +16,28 @@ function getToday(){
 
     return `${yyyy}-${mm}-${dd}`
 }
+///////// RESIZE IMAGE FILE BEFORE UPLOADING
+const resizeFile = (file) =>
+new Promise((resolve) => {
+  Resizer.imageFileResizer(
+    file,
+    1280,
+    960,
+    "JPEG",
+    100,
+    0,
+    (uri) => {
+      resolve(uri);
+    },
+    "file"
+  );
+});
+
+
+
 ////////  MAIN ...........
-const AddPatientForm = ({gotoDashboard, user}) => {
+const AddPatientForm = ({gotoDashboard, user}) => {    
+    
     const user_email = user.email;
     
     const initialValues = {
@@ -54,12 +73,28 @@ const AddPatientForm = ({gotoDashboard, user}) => {
         [name]:value,
     });
  }
+////////////  UPDATING IMAGES STATE WITH RESIZED IMAGES >>>>>>>>>>>>>
+ const onChange = async (event) => {
+     let image = [];
+    try {
+      const file = event.target.files;
+      const fileArray = Array.from(file);
+      for (let i = 0; i<fileArray.length; i++){
+         image.push(await resizeFile(fileArray[i])); 
+      } 
+      setImageFile(image);
+      }
+     catch (err) {
+      console.log(err);
+    }
+  };
+
  async function onSubmitClick (event){
     event.preventDefault(); 
     let fd = new FormData();
-    console.log(values)
+    console.log(imageFile)
+
     fd.append('patientData', JSON.stringify(values))
-    
     for (const file of imageFile){
         fd.append("preop", file)
     }
@@ -184,12 +219,12 @@ const onResetClick = (event) =>{
                         ></input>
                     </div>
                     <div>
-                    <label className="" htmlFor="preopxray">Preop Images <span className="f8"> (Max 3 file)</span></label>
-                        <input  id="preopxray"  
+                    <label className="" htmlFor="xray">Images <span className="f8"> (Max 3 file)</span></label>
+                        <input  id="xray"  
                                 accept="image/*" 
-                                onChange={(event)=>{setImageFile(event.target.files)}} 
+                                onChange={(event)=>{onChange(event)}}                                   
                                 type="file" 
-                                name="preopxray" 
+                                name="xray" 
                                 multiple
                                 className="w-90 ma2 ba b--silver br2"
                         ></input>

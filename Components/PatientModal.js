@@ -1,14 +1,16 @@
 import {Modal, Button} from 'react-bootstrap'
 import styles from '../Components/Components.module.css'  
-  
+
 
   /////// MODAL >>>>>
 
   function PatientModal(props) {
     // console.log(props.patient)
+    const {gotoEditPatient, deletePatient, showImages,  ...rest} = props
+    // console.log(props.patient.patient_id)
     return (
       <Modal
-        {...props}
+        {...rest}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
@@ -34,7 +36,7 @@ import styles from '../Components/Components.module.css'
           <Button className={styles.left} variant="danger" onClick={()=>{props.deletePatient(props.patient.patient_id)}}>Delete</Button>
           <Button onClick={props.gotoEditPatient}>Edit</Button>
           <Button onClick={props.onHide}>Close</Button>
-          <Button onClick={props.onHide}>Xrays</Button>
+          <Button onClick={()=>{showImages(props.patient.patient_id)}}>Xrays</Button>
           
         </Modal.Footer>
       </div>
