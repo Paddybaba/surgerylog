@@ -8,8 +8,21 @@ var allImages;
 const showImages = async  (patient_id) =>{
   const response = await axios.post("https://paddybaba.ddns.net/showImages",{patient_id})
   const imageArray = await response.data;
-  allImages = imageArray;
+  allImages = imageArray
   
+}
+
+function imageClick(element){
+  const enlargedImage = document.createElement("img")
+  enlargedImage.src = element.src;
+  document.getElementById("enlargedXray").appendChild(enlargedImage);
+  document.getElementById("enlargedXray").hidden = false;
+
+}
+
+function hideDiv(){
+  document.getElementById("enlargedXray").hidden = true
+  document.getElementById("enlargedXray").removeChild(document.getElementById("enlargedXray").lastChild);
 }
   function PatientImages(props) {
     const {xrayPaths, patient, user, ...rest} = props
@@ -71,10 +84,11 @@ const showImages = async  (patient_id) =>{
       >
       <div className={styles.modal}>
       <Modal.Body >
-        <div className={styles.xrayContainer}>
+        <div className={styles.xrayEnlarged} id="enlargedXray" onClick={()=>{hideDiv()}}> </div>
+        <div className={styles.xrayContainer} id = "xrayContainer">
                {
                  allImages.map((element, index)=>{
-                    return <img className={styles.xrayFilms} src={`https://paddybaba.ddns.net/xray/${element.xraypath}`} key={index}/>
+                    return <img onClick={(event)=>{imageClick(event.target)}} className={styles.xrayFilms} src={`https://paddybaba.ddns.net/xray/${element.xraypath}`} key={index}/>
                  })
               
                }
