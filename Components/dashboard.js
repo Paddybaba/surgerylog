@@ -51,7 +51,7 @@ import PatientImages from './PatientImages'
         getRecent();
         console.log(user)
     },[])
-
+////////// GET RECENT PATIENTS >>>>>>>>>>>>
     async function getRecent(){
         const response = await fetch ('https://paddybaba.ddns.net/recent',{
             method:'POST',
@@ -60,6 +60,13 @@ import PatientImages from './PatientImages'
             })
         const data = await response.json();
         updateData(data);
+    }
+/////////// GET SEARCH PATIENTS >>>>>>>>>>>>>>
+    async function getPatientList(keyword){
+        const response = await axios.post("https://paddybaba.ddns.net/search", {user: user, keyword :keyword})
+    
+        console.log(response.data)
+        updateData(response.data);
     }
 
     async function getPatientDetails(){
@@ -134,9 +141,10 @@ import PatientImages from './PatientImages'
                 
                 <NewPatient gotoAddNew={gotoAddNew}></NewPatient>
                
-                <ShowAll    showAllPatients={showAllPaients}
+                <ShowAll   
+                            showAllPatients={showAllPaients}
                             showRecent={showRecent}></ShowAll>
-                <SearchField></SearchField>
+                <SearchField  getRecent = {getRecent} getPatientList={getPatientList} ></SearchField>
             </div>
             {/* ///////// Dsiplaying Recent or All Patients Depending upon showRecent true:false */}
 
