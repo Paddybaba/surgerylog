@@ -1,9 +1,8 @@
 import Head from 'next/head'
-import Link from 'next/link'
-import tachyons from 'tachyons'
+import axios from 'axios'
+import Resizer from 'react-image-file-resizer'
 import {useEffect, useState} from 'react'
 import styles from '../styles/Home.module.css'
-import {useRouter} from 'next/router'
 
 
 var phoneField ;
@@ -57,11 +56,11 @@ const isValidPhoneNumber =(num)=>
     console.log(phoneField.value, emailField.value, passwordField.value)
     return true;
   }
+//___________________________________________________________________________
 
-  /////////END VALIDATOR /////////////////
+//// Main function >>>>>>>>>>>>>>>>>>>>>>>>  
 
 export default function Register({gotoDashboard, gotoLogin, getUser}){
-
   ////////////// GETTING ELEMENTS ///////////////////
 useEffect(()=>{
   phoneField = document.getElementById("mobile_number");
@@ -70,64 +69,115 @@ useEffect(()=>{
   alertTextArea = document.getElementById("alert_message")
   profileImageField = document.getElementById("pp") 
 },[])
-
+  
     const [name, updateName] = useState("Anup")
     const [email_address, updateEmail] = useState("");
     const [password, updatePassword] = useState("");
     const [mobile, updateMobile] = useState("");
     const [profile_pic, updatePP] = useState("");
+    const [uploadProgress, setUploadProgress] = useState(0);
+    let fd = new FormData();
+ ////1. ///////// RESIZE IMAGE FILE BEFORE UPLOADING
+    const resizeFile = (file) =>
+    new Promise((resolve) => {
+      Resizer.imageFileResizer(
+        file,
+        1280,
+        960,
+        "JPEG",
+        100,
+        0,
+        (uri) => {
+          resolve(uri);
+        },
+        "file"
+      );
+    });
+//// 2. ////////////  UPDATING IMAGES STATE WITH RESIZED IMAGES >>>>>>>>>>>>>
 
-    const fileUpload = () =>{
-      
+    const onChange = async (event) => {
+      // console.log(event)
+      let image = [];
+     try {
+      const file = event.target.files;
+      image.push(await resizeFile(file[0]))
+      fd.append("profile_image", image[0])
+      console.log(image[0])
+      }catch(err){
+        console.log(err)
+      }
     }
-
+      //////UPLOAD PROGRESS CONFIG 
+      var config = {
+        onUploadProgress: function(progressEvent) {
+          var percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
+          setUploadProgress(percentCompleted);
+        }
+      };
+    /////////// APPEND DATA TO FD
+    const data = {
+      email:email_address,
+      username:name,
+      password:password,
+      phoneNumber : mobile,
+    }
+    try{
+    fd.append("data", JSON.stringify(data))
+    }catch(err){
+      console.log(err.code)
+    }
+  
+      ///////  PUSH TO THE SERVER USING FORM DATA
     async function onRegisterClick() {
            
-      const convertFile = file => new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-            })
-
-      // const convertFile = (file) =>{
-      //   let buff = fs.readFileSync(file);
-      //   let base64data = buff.toString('base64');
-
-      //   console.log("Image converted to base64" + base64data)
-      // }
-      
-          let formData = await convertFile(profile_pic);
-          // console.log(formData)
-        const data = {
-            email:email_address,
-            username:name,
-            password:password,
-            phoneNumber : mobile,
-            file : formData
+         if(required())
+          {
+            if(isValidEmail(data.email) && isValidPhoneNumber(data.phoneNumber))
+            {
+              const response = await axios.post("https://paddybaba.ddns.net/register", fd, config)
+              console.log(await response.data.message)
+             if(response){
+                  const datafetched = await response.data;
+                   if (datafetched.message == "OK"){
+                      console.log(datafetched.user)
+                      getUser(datafetched.user)
+                      alert(datafetched.user.username+ " registered successfully !!!")
+                      gotoDashboard();
+                    } else if(datafetched.message == "FAILED"){
+                      (alert("Error occured !! Try again"))
+                    } else if(datafetched.message == "No file uploaded") {
+                      (alert("Profile photo not selected !!!"))
+                    }
+                    } 
+              
+            }                  
           }
-          console.log(data)
-              if(required())
-              {
-                if(isValidEmail(data.email) && isValidPhoneNumber(data.phoneNumber))
-                {
-                  const response = await fetch('https://paddybaba.ddns.net/register',{
-                                      method:'POST',
-                                      headers:{"Content-type":"application/json"},
-                                      body:JSON.stringify(data)
-                                      })
-                  const datafetched = await response.json();
-                  if(datafetched.message == "OK"){
-                    console.log(datafetched.user)
-                    getUser(datafetched.user)
-                    alert(datafetched.user.username+ " registered successfully !!!")
-                    gotoDashboard();
-                  } else if(datafetched.message == "FAILED"){
-                    (alert("Error occured !! Try again"))
-                  }
-                }                  
-                }
+            
         }
+        ;
+    
+          // console.log(data)
+              // if(required())
+              // {
+              //   if(isValidEmail(data.email) && isValidPhoneNumber(data.phoneNumber))
+              //   {
+              //     const response = await fetch('https://paddybaba.ddns.net/register',{
+              //                         method:'POST',
+              //                         headers:{"Content-type":"application/json"},
+              //                         body:JSON.stringify(data)
+              //                         })
+              //     const datafetched = await response.json();
+              //     if(datafetched.message == "OK"){
+              //       console.log(datafetched.user)
+              //       getUser(datafetched.user)
+              //       alert(datafetched.user.username+ " registered successfully !!!")
+              //       gotoDashboard();
+              //     } else if(datafetched.message == "FAILED"){
+              //       (alert("Error occured !! Try again"))
+              //     }
+              //   }                  
+              //   }
+        
     
     return (
         <div className={styles.container}>
@@ -175,7 +225,7 @@ useEffect(()=>{
                     type="file" 
                     name="profile_photo" 
                     accept="image/*"
-                    onChange = {(file) =>updatePP(file.target.files[0])}></input>
+                    onChange = {(event) =>{onChange(event)}}></input>
           </div>
           <div className="tc">
             <input onClick={onRegisterClick}
