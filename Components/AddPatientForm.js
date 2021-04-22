@@ -3,6 +3,7 @@ import styles from '../Components/Components.module.css'
 import { useState } from 'react'
 import Modal from 'react-modal'
 import Resizer from "react-image-file-resizer";
+import axios from 'axios';
 
 
 Modal.setAppElement('main')
@@ -99,12 +100,13 @@ const AddPatientForm = ({gotoDashboard, user}) => {
         fd.append("preop", file)
     }
 
-    const response = await fetch('https://paddybaba.ddns.net//uploadForm', {
-        method:"POST",
-        origin: "CORS",
-        body : fd
-    })
-    dataToBeUploaded = await response.json();
+    // const response = await fetch('https://paddybaba.ddns.net//uploadForm', {
+    //     method:"POST",
+    //     origin: "CORS",
+    //     body : fd
+    // })
+    const response = await axios.post('https://paddybaba.ddns.net/uploadForm', fd)
+    dataToBeUploaded = await response.data;
     console.log(dataToBeUploaded);
     alert(`Patient ${dataToBeUploaded.patient} saved successfully in the database !!! \n Click OK to go back`)
     gotoDashboard(); 

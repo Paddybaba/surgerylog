@@ -170,6 +170,7 @@ import PatientImages from './PatientImages'
                     <PatientImages
                         show = {imagesShow} 
                         onHide={()=>setImagesShow(false)}
+                        showImages = {showImages}
                         patient = {patient}
                         user = {user}
                         xrayPaths = {xrayPaths}/>

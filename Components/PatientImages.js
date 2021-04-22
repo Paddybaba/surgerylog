@@ -48,7 +48,9 @@ function hideDiv(){
               var config = {
                 onUploadProgress: function(progressEvent) {
                   var percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
+                  props.onHide();
                   setUploadProgress(percentCompleted);
+                  if(percentCompleted >50) props.showImages(patient.patient_id)
                 }
               };              
               let image = [];
@@ -68,16 +70,16 @@ function hideDiv(){
                 fd.append("newImage", file)
               }
               const response = axios.post("https://paddybaba.ddns.net/newImages", fd, config)
-              if(response){
+              if(uploadProgress == 100){
                 //// REFERESH IMAGES
-                showImages(patient.patient_id); /////NOT WORkiNG
+                // props.showImages(patient.patient_id);
               }
               }catch (err) {
               console.log(err);
             }
             };
 
-      var xray = `https://paddybaba.ddns.net/xray/${xrayPaths[0].xraypath}`;
+      // var xray = `https://paddybaba.ddns.net/xray/${xrayPaths[0].xraypath}`;
             
     return (
       <Modal
